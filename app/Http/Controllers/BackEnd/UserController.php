@@ -40,6 +40,7 @@ class UserController extends Controller
             ];
         }
     }
+
     public function insertuserdata(request $request)
     {
         if ($request->file('profileimage')) {
@@ -59,7 +60,7 @@ class UserController extends Controller
             $request->file('profileimage')->move($destinationPath, $picName);
 
 
-            $data['profileimage'] = '/public/userImages/' . $picName;
+            $data['profileimage'] = 'userImages/' . $picName;
 
             $match = DB::table('tbl_user')->insert($data);
             if ($match) {
@@ -120,7 +121,7 @@ class UserController extends Controller
         $path = 'userImages' . "/" ;
         $destinationPath = $path; // upload path
         $request->file('profileimage')->move($destinationPath, $picName);
-        $data['profileimage'] = '/public/userImages/' . $fileName;
+        $data['profileimage'] = 'userImages/' . $fileName;
 
         $match = DB::table('tbl_user')->where('id',$id)->update($data);
         if ($match) {
@@ -144,6 +145,23 @@ class UserController extends Controller
             return[
                 "status" =>"success",
                 "msg" =>"Data Deleted Sccessfully",
+            ];
+        }
+        else{
+            return[
+                "status" =>"failed",
+                "msg" =>"Something is worng",
+            ];
+        }
+    }
+    public function allUserList()
+    {
+        $success = DB::table('tbl_user')->get();
+        if ($success) {
+            return[
+                "status" =>"success",
+                "msg" =>"Data fetched Sccessfully",
+                "data" =>$success,
             ];
         }
         else{

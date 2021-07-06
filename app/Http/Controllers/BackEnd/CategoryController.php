@@ -34,7 +34,7 @@ class CategoryController extends Controller
         $path = 'category_image' . "/" ;
         $destinationPath = $path; // upload path
         $request->file('category_image')->move($destinationPath, $picName);
-        $data['category_image'] = '/public/category_image/' . $picName;
+        $data['category_image'] = '/category_image/' . $picName;
         $save = DB::table('category')->insert($data);
 
         if ($save) {
@@ -50,16 +50,17 @@ class CategoryController extends Controller
             ];
         }
     }
-    public function updatecategory(request $request)
+    public function update_category(request $request)
     {
-        $id = $request->id;
+              $id = $request->id;
         $data['name'] = $request->name;
 
-        $image = $request->file('category_image');
-        $fileName = $image->getClientOriginalName();
-        $destinationPath = base_path() . '/public/category_image/' . $fileName;
-        $image->move($destinationPath, $fileName);
-        $data['category_image'] = '/public/category_image/' . $fileName;
+        $picName = $request->file('category_image')->getClientOriginalName();
+        $picName = uniqid() . '_' . $picName;
+        $path = 'category_image' . "/" ;
+        $destinationPath = $path; // upload path
+        $request->file('category_image')->move($destinationPath, $picName);
+        $data['category_image'] = '/category_image/' . $picName;
         $save = DB::table('category')->where('id',$id)->update($data);
         if ($save) {
             return[

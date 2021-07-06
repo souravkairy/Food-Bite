@@ -34,7 +34,7 @@ class SliderController extends Controller
         $path = 'slider_image' . "/" ;
         $destinationPath = $path; // upload path
         $request->file('slider_image')->move($destinationPath, $picName);
-        $data['slider_image'] = '/public/slider_image/' . $picName;
+        $data['slider_image'] = 'slider_image/' . $picName;
         $save = DB::table('dashboard_slider')->insert($data);
 
         if ($save) {
@@ -54,12 +54,11 @@ class SliderController extends Controller
     {
         $id = $request->id;
         $data['status'] = 1;
-
         $image = $request->file('slider_image');
         $fileName = $image->getClientOriginalName();
-        $destinationPath = base_path() . '/public/slider_image/' . $fileName;
+        $destinationPath = base_path() . 'slider_image/' . $fileName;
         $image->move($destinationPath, $fileName);
-        $data['slider_image'] = '/public/slider_image/' . $fileName;
+        $data['slider_image'] = 'slider_image/' . $fileName;
         $save = DB::table('dashboard_slider')->where('id',$id)->update($data);
         if ($save) {
             return[

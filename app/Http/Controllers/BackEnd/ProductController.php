@@ -8,14 +8,14 @@ use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
-    public function GetProductData()
+    public function GetallProductData()
     {
         $success = DB::table('products')->get();
         if ($success) {
             return[
                 "status" =>"success",
                 "msg" =>"Data retrived Sccessfully",
-                "data" => $success,
+                "data" => $success ,
             ];
         }
         else{
@@ -44,6 +44,38 @@ class ProductController extends Controller
             ];
         }
     }
+    public function getproductdata(request $request)
+    {
+        $id = $request->id;
+        $success = DB::table('products')->where('id',$id)->first();
+        if ($success) {
+            return[
+                "status" =>"success",
+                "msg" =>"Data retrived Sccessfully",
+                "data" => [
+                    "id" => $success->id,
+                    "category_id" => $success->category_id,
+                    "name" => $success->name,
+                    "price" => $success->price,
+                    "selling_price" => $success->selling_price,
+                    "description" => $success->description,
+                ],
+                "images"=>  [
+                    "img1" => $success->img1,
+                    "img2" => $success->img1,
+                    "img3" => $success->img1,
+                    "img4" => $success->img1,
+                    "img5" => $success->img1,
+                ],
+            ];
+        }
+        else{
+            return[
+                "status" =>"error",
+                "msg" =>"Something is wrong",
+            ];
+        }
+    }
 
 
     public function insertproductdata(request $request)
@@ -52,8 +84,8 @@ class ProductController extends Controller
         $data['category_id'] = $request->category_id;
         $data['name'] = $request->name;
         $data['price'] = $request->price;
-        $data['selling_price'] = $request->selling_price;
         $data['description'] = $request->description;
+        $data['selling_price'] = $request->selling_price;
 
         if ($request->img1 && $request->img2 && $request->img3 && $request->img4 &&$request->img5) {
 
@@ -76,11 +108,11 @@ class ProductController extends Controller
             $request->file('img4')->move($destinationPath, $fileName4);
             $request->file('img5')->move($destinationPath, $fileName5);
 
-            $data['img1'] = '/public/productImages/' . $fileName1;
-            $data['img2'] = '/public/productImages/' . $fileName2;
-            $data['img3'] = '/public/productImages/' . $fileName3;
-            $data['img4'] = '/public/productImages/' . $fileName4;
-            $data['img5'] = '/public/productImages/' . $fileName5;
+            $data['img1'] = '/productImages/' . $fileName1;
+            $data['img2'] = '/productImages/' . $fileName2;
+            $data['img3'] = '/productImages/' . $fileName3;
+            $data['img4'] = '/productImages/' . $fileName4;
+            $data['img5'] = '/productImages/' . $fileName5;
 
             $match = DB::table('products')->insert($data);
             if ($match) {
@@ -116,10 +148,10 @@ class ProductController extends Controller
             $request->file('img4')->move($destinationPath, $fileName4);
 
 
-            $data['img1'] = '/public/productImages/' . $fileName1;
-            $data['img2'] = '/public/productImages/' . $fileName2;
-            $data['img3'] = '/public/productImages/' . $fileName3;
-            $data['img4'] = '/public/productImages/' . $fileName4;
+            $data['img1'] = '/productImages/' . $fileName1;
+            $data['img2'] = '/productImages/' . $fileName2;
+            $data['img3'] = '/productImages/' . $fileName3;
+            $data['img4'] = '/productImages/' . $fileName4;
 
 
             $match = DB::table('products')->insert($data);
@@ -148,9 +180,9 @@ class ProductController extends Controller
             $request->file('img1')->move($destinationPath, $fileName1);
             $request->file('img2')->move($destinationPath, $fileName2);
             $request->file('img3')->move($destinationPath, $fileName3);
-            $data['img1'] = '/public/productImages/' . $fileName1;
-            $data['img2'] = '/public/productImages/' . $fileName2;
-            $data['img3'] = '/public/productImages/' . $fileName3;
+            $data['img1'] = '/productImages/' . $fileName1;
+            $data['img2'] = '/productImages/' . $fileName2;
+            $data['img3'] = '/productImages/' . $fileName3;
             $match = DB::table('products')->insert($data);
             if ($match) {
                 return[
@@ -178,8 +210,8 @@ class ProductController extends Controller
             $request->file('img2')->move($destinationPath, $fileName2);
 
 
-            $data['img1'] = '/public/productImages/' . $fileName1;
-            $data['img2'] = '/public/productImages/' . $fileName2;
+            $data['img1'] = '/productImages/' . $fileName1;
+            $data['img2'] = '/productImages/' . $fileName2;
 
             $match = DB::table('products')->insert($data);
             if ($match) {
@@ -203,7 +235,7 @@ class ProductController extends Controller
 
             $request->file('img1')->move($destinationPath, $fileName1);
 
-            $data['img1'] = '/public/productImages/' . $fileName1;
+            $data['img1'] = '/productImages/' . $fileName1;
 
 
             $match = DB::table('products')->insert($data);
@@ -244,7 +276,6 @@ class ProductController extends Controller
         $data['category_id'] = $request->category_id;
         $data['name'] = $request->name;
         $data['price'] = $request->price;
-        $data['selling_price'] = $request->selling_price;
         $data['description'] = $request->description;
 
         if ($request->img1 && $request->img2 && $request->img3 && $request->img4 &&$request->img5) {
@@ -268,11 +299,11 @@ class ProductController extends Controller
             $request->file('img4')->move($destinationPath, $fileName4);
             $request->file('img5')->move($destinationPath, $fileName5);
 
-            $data['img1'] = '/public/productImages/' . $fileName1;
-            $data['img2'] = '/public/productImages/' . $fileName2;
-            $data['img3'] = '/public/productImages/' . $fileName3;
-            $data['img4'] = '/public/productImages/' . $fileName4;
-            $data['img5'] = '/public/productImages/' . $fileName5;
+            $data['img1'] = '/productImages/' . $fileName1;
+            $data['img2'] = '/productImages/' . $fileName2;
+            $data['img3'] = '/productImages/' . $fileName3;
+            $data['img4'] = '/productImages/' . $fileName4;
+            $data['img5'] = '/productImages/' . $fileName5;
 
             $match = DB::table('products')->insert($data);
             if ($match) {
@@ -308,10 +339,10 @@ class ProductController extends Controller
             $request->file('img4')->move($destinationPath, $fileName4);
 
 
-            $data['img1'] = '/public/productImages/' . $fileName1;
-            $data['img2'] = '/public/productImages/' . $fileName2;
-            $data['img3'] = '/public/productImages/' . $fileName3;
-            $data['img4'] = '/public/productImages/' . $fileName4;
+            $data['img1'] = '/productImages/' . $fileName1;
+            $data['img2'] = '/productImages/' . $fileName2;
+            $data['img3'] = '/productImages/' . $fileName3;
+            $data['img4'] = '/productImages/' . $fileName4;
 
 
             $match = DB::table('products')->insert($data);
@@ -340,9 +371,9 @@ class ProductController extends Controller
             $request->file('img1')->move($destinationPath, $fileName1);
             $request->file('img2')->move($destinationPath, $fileName2);
             $request->file('img3')->move($destinationPath, $fileName3);
-            $data['img1'] = '/public/productImages/' . $fileName1;
-            $data['img2'] = '/public/productImages/' . $fileName2;
-            $data['img3'] = '/public/productImages/' . $fileName3;
+            $data['img1'] = '/productImages/' . $fileName1;
+            $data['img2'] = '/productImages/' . $fileName2;
+            $data['img3'] = '/productImages/' . $fileName3;
             $match = DB::table('products')->insert($data);
             if ($match) {
                 return[
@@ -370,8 +401,8 @@ class ProductController extends Controller
             $request->file('img2')->move($destinationPath, $fileName2);
 
 
-            $data['img1'] = '/public/productImages/' . $fileName1;
-            $data['img2'] = '/public/productImages/' . $fileName2;
+            $data['img1'] = '/productImages/' . $fileName1;
+            $data['img2'] = '/productImages/' . $fileName2;
 
             $match = DB::table('products')->insert($data);
             if ($match) {
@@ -393,7 +424,7 @@ class ProductController extends Controller
             $path = 'productImages' . "/" ;
             $destinationPath = $path; // upload path
             $request->file('img1')->move($destinationPath, $fileName1);
-            $data['img1'] = '/public/productImages/' . $fileName1;
+            $data['img1'] = '/productImages/' . $fileName1;
 
 
             $match = DB::table('products')->insert($data);
@@ -429,12 +460,55 @@ class ProductController extends Controller
     }
     public function deleteproductdata(request $request)
     {
+
         $id = $request->id;
-        $success = DB::table('products')->where('ID',$id)->delete();
+        $success = DB::table('products')->where('id',$id)->delete();
         if ($success) {
             return[
                 "status" =>"success",
                 "msg" =>"Data Deleted Sccessfully",
+            ];
+        }
+    }
+    public function deleteproduct(request $request)
+    {
+        $id = $request->id;
+        $success = DB::table('products')->where('id',$id)->delete();
+        if ($success) {
+            return[
+                "status" =>"success",
+                "msg" =>"Data Deleted Sccessfully",
+            ];
+        }
+    }
+    public function summary()
+    {
+        $placed_order = DB::table('order')->where('status', 'placed')->count();
+        $processing_order = DB::table('order')->where('status', 'processing')->count();
+        $delivered = DB::table('order')->where('status', 'deliver')->count();
+        $all_product = DB::table('products')->count();
+        $category = DB::table('category')->count();
+        $all_user = DB::table('tbl_user')->count();
+        if ($placed_order) {
+            return[
+                "status" =>"success",
+                "msg" =>"Data retrived Sccessfully",
+                "data" => [
+                    "placed_order" => $placed_order,
+                    "processing_order" => $processing_order,
+                    "delivered" => $delivered,
+                    "all_product" => $all_product,
+                    "category" => $category,
+                    "all_user" => $all_user,
+
+                ],
+
+            ];
+        }
+        else{
+            return[
+                "status" =>"failed",
+                "msg" =>"Something is worng",
             ];
         }
     }
